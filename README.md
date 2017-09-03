@@ -1,0 +1,2 @@
+# AliyunDdnsPython
+基于阿里云最新云解析API编写的DDNS Python程序，可将本机公网IP实时更新到自己阿里云的域名解析记录中
