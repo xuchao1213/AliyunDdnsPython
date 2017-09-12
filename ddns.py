@@ -7,7 +7,7 @@ from sdkwrapper import AliYunSdkWrapper
 from util import Util
 from config import Config
 
-CONFIG_FILE = "ddns.conf"
+CONFIG_FILE = "ddns.conf.example"
 
 
 def main():

@@ -1,0 +1,15 @@
+[CONFIG]
+# 刷新时间间隔（分钟）
+interval=30
+# 阿里云AccessKeyId
+access_key_id=
+# 阿里云AccessKeySecret
+access_key_secret=
+# 阿里云域名 如 google.com
+domain_name=
+# 阿里云子域名 如 test
+sub_domain_name=
+# 记录类型 默认'A' 目前仅支持'A'
+record_type=A
+# 区域id 默认cn-hangzhou 无需修改
+region_id=cn-hangzhou
