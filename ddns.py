@@ -1,53 +1,58 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys
+import threading
 
 from sdkwrapper import AliYunSdkWrapper
 from util import Util
 from config import Config
 
-CONFIG_FILE = "ddns.conf.example"
+CONFIG_FILE = "ddns.conf"
 
 
 def main():
     """
     Main Function
     """
-    print "ali-ddns run ..."
     """
     load config 
     """
     ddnsConfig = Config()
-    loadRes = ddnsConfig.loadConfig(CONFIG_FILE)
-    if loadRes:
+    if ddnsConfig.loadConfig(CONFIG_FILE):
         """
         get current local internet ip
         """
         local_ip = Util.getLocalInternetIp()
-        if local_ip[0] is False:
-            print local_ip[1]
-            return
-        """
-        init AliYunSdkWrapper
-        """
-        sdkUtil = AliYunSdkWrapper(
-            ddnsConfig.access_key_id,
-            ddnsConfig.access_key_secret,
-            ddnsConfig.domain_name,
-            ddnsConfig.sub_domain_name,
-            ddnsConfig.record_type,
-            ddnsConfig.region_id
-        )
-        """
-        update record
-        """
-        res = sdkUtil.getRecordValue()
-        if res[0]:
-            sdkUtil.setRecordValue(local_ip[1])
+        if local_ip[0]:
+            """
+            init AliYunSdkWrapper
+            """
+            sdkUtil = AliYunSdkWrapper(
+                ddnsConfig.access_key_id,
+                ddnsConfig.access_key_secret,
+                ddnsConfig.domain_name,
+                ddnsConfig.sub_domain_name,
+                ddnsConfig.record_type,
+                ddnsConfig.region_id
+            )
+            """
+            update record
+            """
+            sdkUtil.updateRecord(local_ip[1])
+            scheduleTimerTask(ddnsConfig.interval * 60)
         else:
-            print res[1] + "[Skip]"
+            print local_ip[1]
+            scheduleTimerTask(ddnsConfig.interval * 60)
+    else:
+        print "not config yet , retry 1 min later...... 【Skip】"
+        scheduleTimerTask(1 * 60)
+
+
+def scheduleTimerTask(interval):
+    timer = threading.Timer(interval, main)
+    timer.start()
 
 
 if __name__ == "__main__":
-    main()
+    print "ali-ddns run ..."
+    scheduleTimerTask(3)

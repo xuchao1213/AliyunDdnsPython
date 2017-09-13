@@ -37,7 +37,14 @@ class AliYunSdkWrapper:
             region_id
         );
 
-    def getRecordValue(self):
+    def updateRecord(self, value):
+        res = self.__getRecordValue()
+        if res[0]:
+            self.__setRecordValue(value)
+        else:
+            print res[1] + "[Skip]"
+
+    def __getRecordValue(self):
         self.__requireParmSet()
         # create request and set parm
         request = DescribeDomainRecordsRequest()
@@ -63,7 +70,7 @@ class AliYunSdkWrapper:
             print "error: " + res[1]
             return res
 
-    def setRecordValue(self, record_value):
+    def __setRecordValue(self, record_value):
         self.__requireParmSet()
         # creat request，set parm
         if self.has_remote_record:
