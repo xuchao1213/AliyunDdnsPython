@@ -52,7 +52,6 @@ def scheduleTimerTask(interval):
     timer = threading.Timer(interval, main)
     timer.start()
 
-
 if __name__ == "__main__":
     print "ali-ddns run ..."
     scheduleTimerTask(3)

@@ -1,0 +1,8 @@
+[Unit]
+Description=aliyun ddns services .
+After=network.target network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/AliyunDdnsPython
+ExecStart=/usr/bin/python ddns.py
